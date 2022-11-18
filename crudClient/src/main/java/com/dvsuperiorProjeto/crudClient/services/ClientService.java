@@ -34,5 +34,14 @@ public class ClientService {
 		Client entity = obj.orElseThrow(()-> new EntityNotFoundException("Nao Encontrado"));
 		return new ClientDto(entity);
 	}
+	public ClientDto insert(ClientDto dto) {
+		Client entity = new Client();
+		entity.setName(dto.getName());
+		entity.setCpf(dto.getCpf());
+		entity.setIncome(dto.getIncome());
+		entity.setChildren(dto.getChildren());
+		entity = repository.save(entity);
+		return new ClientDto(entity);
+	}
 
 }
