@@ -65,6 +65,8 @@ public class ClientService {
 		} catch (EntityNotFoundException e) {
 			throw new ResourceNotFoundException("Id nao encontrado" + " " + id);
 		}
+		
+		
 
 	}
 
@@ -72,11 +74,11 @@ public class ClientService {
 		try {
 			repository.deleteById(id);
 		} catch (EmptyResultDataAccessException e) {
-			throw new ResourceNotFoundException("Id nao encontrado" + " " + id);
+			throw new ResourceNotFoundException("Id nao encontrado" + " " +id);
 		} catch (DataIntegrityViolationException e) {
-			throw new DatabaseException("Violacao de Integridade");
+			throw new DatabaseException("Violacao de Integridade");			
 		}
-
+		
 	}
 
 }
