@@ -1,9 +1,9 @@
 package com.dvsuperiorProjeto.crudClient.dto;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 
 import com.dvsuperiorProjeto.crudClient.entities.Client;
-
 
 public class ClientDto implements Serializable {
 
@@ -14,17 +14,19 @@ public class ClientDto implements Serializable {
 	private String cpf;
 	private Double income;
 	private Integer children;
+	private LocalDate birthDate;
 
 	public ClientDto() {
 
 	}
 
-	public ClientDto(long id, String name, String cpf, Double income, Integer children) {
+	public ClientDto(long id, String name, String cpf, Double income, Integer children, LocalDate birthDate) {
 		this.id = id;
 		this.name = name;
 		this.cpf = cpf;
 		this.income = income;
 		this.children = children;
+		this.birthDate = birthDate;
 	}
 
 	public ClientDto(Client entity) {
@@ -34,7 +36,7 @@ public class ClientDto implements Serializable {
 		this.cpf = entity.getCpf();
 		this.income = entity.getIncome();
 		this.children = entity.getChildren();
-
+		this.birthDate = entity.getBirthDate();
 	}
 
 	public long getId() {
@@ -75,6 +77,14 @@ public class ClientDto implements Serializable {
 
 	public void setChildren(Integer children) {
 		this.children = children;
+	}
+
+	public LocalDate getBirthDate() {
+		return birthDate;
+	}
+
+	public void setBirthDate(LocalDate birthDate) {
+		this.birthDate = birthDate;
 	}
 
 }

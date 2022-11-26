@@ -1,15 +1,14 @@
 package com.dvsuperiorProjeto.crudClient.services;
 
-import java.util.List;
-
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,11 +25,11 @@ public class ClientService {
 	private ClientRepository repository;
 
 	@Transactional(readOnly = true)
-	public List<ClientDto> findAll() {
+	public Page<ClientDto> findAllPaged(PageRequest pageRequest) {
 
-		List<Client> list = repository.findAll();
+		Page<Client> list = repository.findAll(pageRequest);
 
-		return list.stream().map(x -> new ClientDto(x)).collect(Collectors.toList());
+		return list.map(x -> new ClientDto(x));
 
 	}
 
@@ -48,11 +47,12 @@ public class ClientService {
 		entity.setCpf(dto.getCpf());
 		entity.setIncome(dto.getIncome());
 		entity.setChildren(dto.getChildren());
+		entity.setBirthDate(dto.getBirthDate());
 		entity = repository.save(entity);
 		return new ClientDto(entity);
 	}
 
-	@Transactional(readOnly = true)
+	@Transactional
 	public ClientDto update(ClientDto dto, Long id) {
 		try {
 			Client entity = repository.getReferenceById(id);
@@ -61,6 +61,7 @@ public class ClientService {
 			entity.setIncome(dto.getIncome());
 			entity.setChildren(dto.getChildren());
 			entity = repository.save(entity);
+			entity.setBirthDate(dto.getBirthDate());
 			return new ClientDto(entity);
 		} catch (EntityNotFoundException e) {
 			throw new ResourceNotFoundException("Id nao encontrado" + " " + id);
